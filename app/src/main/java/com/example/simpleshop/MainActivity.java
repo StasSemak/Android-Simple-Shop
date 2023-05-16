@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.simpleshop.application.HomeApplication;
 import com.example.simpleshop.category.CategoriesAdapter;
+import com.example.simpleshop.category.listview.CategoriesListViewAdapter;
 import com.example.simpleshop.constants.Urls;
 import com.example.simpleshop.dto.category.CategoryItemDTO;
 import com.example.simpleshop.service.CategoryNetwork;
@@ -25,6 +27,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     CategoriesAdapter adapter;
     RecyclerView rc;
+    CategoriesListViewAdapter listViewAdapter;
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 .apply(new RequestOptions().override(600))
                 .into(avatar);
 
-        rc = findViewById(R.id.rcvCategories);
-        rc.setHasFixedSize(true);
-        rc.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
-        rc.setAdapter(new CategoriesAdapter(new ArrayList<>()));
+//        rc = findViewById(R.id.rcvCategories);
+//        rc.setHasFixedSize(true);
+//        rc.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
+//        rc.setAdapter(new CategoriesAdapter(new ArrayList<>()));
+        lv = findViewById(R.id.lvCategories);
+        lv.setAdapter(new CategoriesListViewAdapter(new ArrayList<>()));
 
         requestServer();
     }
@@ -54,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<CategoryItemDTO>> call, Response<List<CategoryItemDTO>> response) {
                         List<CategoryItemDTO> list = response.body();
-                        adapter = new CategoriesAdapter(list);
-                        rc.setAdapter(adapter);
+                        listViewAdapter = new CategoriesListViewAdapter(list);
+                        lv.setAdapter(listViewAdapter);
                     }
 
                     @Override

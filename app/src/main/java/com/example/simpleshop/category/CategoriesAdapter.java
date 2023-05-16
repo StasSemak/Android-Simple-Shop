@@ -24,7 +24,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoryCardViewHold
         this.categories = categories;
     }
 
-
     @NonNull
     @Override
     public CategoryCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
