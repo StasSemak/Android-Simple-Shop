@@ -27,8 +27,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     CategoriesAdapter adapter;
     RecyclerView rc;
-    CategoriesListViewAdapter listViewAdapter;
-    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +40,10 @@ public class MainActivity extends AppCompatActivity {
                 .apply(new RequestOptions().override(600))
                 .into(avatar);
 
-//        rc = findViewById(R.id.rcvCategories);
-//        rc.setHasFixedSize(true);
-//        rc.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
-//        rc.setAdapter(new CategoriesAdapter(new ArrayList<>()));
-        lv = findViewById(R.id.lvCategories);
-        lv.setAdapter(new CategoriesListViewAdapter(new ArrayList<>()));
+        rc = findViewById(R.id.rcvCategories);
+        rc.setHasFixedSize(true);
+        rc.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
+        rc.setAdapter(new CategoriesAdapter(new ArrayList<>()));
 
         requestServer();
     }
@@ -60,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<CategoryItemDTO>> call, Response<List<CategoryItemDTO>> response) {
                         List<CategoryItemDTO> list = response.body();
-                        listViewAdapter = new CategoriesListViewAdapter(list);
-                        lv.setAdapter(listViewAdapter);
+                        adapter = new CategoriesAdapter(list);
+                        rc.setAdapter(adapter);
                     }
 
                     @Override
