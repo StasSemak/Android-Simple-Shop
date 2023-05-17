@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.simpleshop.BaseActivity;
 import com.example.simpleshop.ChangeImageActivity;
@@ -61,6 +62,8 @@ public class CategoryCreateActivity extends BaseActivity {
 
     public void onClickSave(View view) {
         CategoryCreateDTO model = new CategoryCreateDTO();
+        if(!ValidateFields()) return;
+
         model.setName(txtCategoryName.getText().toString());
         model.setDescription(txtCategoryDescription.getText().toString());
         model.setImageBase64(uriGetBase64(uri));
@@ -81,6 +84,29 @@ public class CategoryCreateActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    public boolean ValidateFields()
+    {
+        if(txtCategoryName.getText().toString().matches("")) {
+            Toast
+                .makeText(getApplicationContext(), "Name can't be empty!", Toast.LENGTH_SHORT)
+                .show();
+            return false;
+        }
+        else if(txtCategoryDescription.getText().toString().matches("")) {
+            Toast
+                .makeText(getApplicationContext(), "Description can't be empty!", Toast.LENGTH_SHORT)
+                .show();
+            return false;
+        }
+        else if (uri == null) {
+            Toast
+                .makeText(getApplicationContext(), "You must add an image!", Toast.LENGTH_SHORT)
+                .show();
+            return false;
+        }
+        return true;
     }
 
     public String uriGetBase64(Uri uri) {
